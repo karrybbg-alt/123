@@ -909,3 +909,334 @@
 </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Family Trip to Tokyo & Nagoya 2025-2026</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'snow-white': '#F0FFFF',
+                        'ice-blue': '#B3E5FC',
+                        'light-snow-blue': '#E5F3F7',
+                        'deep-sea-blue': '#01579B',
+                        'accent-yellow': '#FFD54F',
+                        'soft-gray': '#F5F5F5',
+                        'sakura-pink': '#F8BBD0'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        body {
+            background-color: #E5F3F7; 
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #334155;
+        }
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #ffffff; 
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            padding-bottom: 90px;
+        }
+        .header-bg {
+            background-color: #ffffff; 
+            padding: 0; 
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+            border-bottom-left-radius: 35px; 
+            border-bottom-right-radius: 35px;
+            z-index: 10; 
+            padding-bottom: 0px; 
+        }
+        
+        /* 輪播容器 */
+        .header-slider {
+            width: 100%;
+            height: 250px; 
+            overflow: hidden;
+            background-color: transparent; 
+            border-bottom-left-radius: 35px; 
+            border-bottom-right-radius: 35px;
+            position: relative;
+        }
+        
+        .slider-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .slider-image.active {
+            opacity: 1;
+        }
+        
+        .snow-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23fff" opacity="0.8"/><circle cx="20" cy="80" r="0.5" fill="%23fff" opacity="0.6"/><circle cx="70" cy="30" r="1.5" fill="%23fff" opacity="0.9"/></svg>');
+            background-size: 100px 100px;
+            opacity: 0.7;
+            animation: snowfall 10s linear infinite;
+            z-index: 5;
+        }
+        @keyframes snowfall {
+            to {
+                background-position: 100px 100px;
+            }
+        }
+        
+        .side-tab-bar {
+            position: absolute;
+            bottom: 45px; 
+            right: 16px;
+            z-index: 30; 
+            display: flex;
+            flex-direction: row;
+            gap: 8px; 
+        }
+        
+        .tab-button {
+            width: 40px; 
+            height: 40px;
+            border-radius: 9999px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+            transition: all 0.2s ease;
+        }
+        
+        .tab-button.active {
+            background-color: #01579B;
+            color: #ffffff;
+            box-shadow: 0 6px 15px rgba(1, 87, 155, 0.4); 
+            transform: scale(1.05);
+        }
+        
+        .tab-button:not(.active) {
+            background-color: #ffffff;
+            color: #B3E5FC;
+        }
+        .app-main {
+            padding-top: 25px !important; 
+            position: relative;
+            z-index: 5;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none; 
+        }
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(179, 229, 252, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fab-shadow {
+            box-shadow: 0 4px 15px rgba(255, 213, 79, 0.5);
+        }
+        .note-content {
+            max-height: 2.5rem;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .note-content.expanded {
+            max-height: 500px;
+        }
+        
+        .expense-category-tag {
+            min-width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .expenses-banner {
+            background: linear-gradient(135deg, #01579B 0%, #0097A7 100%);
+        }
+        
+        .date-selector-sticky {
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0f0f0; 
+            z-index: 20; 
+            top: 0; 
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="app-container">
+    <div class="header-bg relative">
+        <!-- 新增輪播區域 -->
+        <div class="header-slider">
+            <img v-for="(slide, index) in slides" :key="index"
+                 :src="slide"
+                 :class="{ 'active': currentSlide === index }"
+                 class="slider-image"
+                 alt="日本旅行美景">
+        </div>
+        
+        <div class="snow-layer"></div> 
+        
+        <div class="side-tab-bar">
+            <button @click="currentTab = 'itinerary'" title="行程" 
+                    :class="{'active': currentTab === 'itinerary'}" 
+                    class="tab-button">
+                <i class="fa-solid fa-map-location-dot"></i>
+            </button>
+            
+            <button @click="currentTab = 'info'" title="資訊" 
+                    :class="{'active': currentTab === 'info'}" 
+                    class="tab-button">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+            
+            <button @click="currentTab = 'shopping'" title="購物" 
+                    :class="{'active': currentTab === 'shopping'}" 
+                    class="tab-button">
+                <i class="fa-solid fa-basket-shopping"></i>
+            </button>
+            
+            <button @click="currentTab = 'expenses'" title="花費" 
+                    :class="{'active': currentTab === 'expenses'}" 
+                    class="tab-button">
+                <i class="fa-solid fa-coins"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 其餘 main 內容保持不變 -->
+    <main class="p-4 app-main">
+        <!-- ... 原本的所有內容（行程、資訊、購物、花費）保持完全相同 ... -->
+        <!-- 為了節省篇幅，這裡省略，但請從你上一個版本直接複製過來 -->
+        <!-- 包括所有 v-if 區塊、日期選擇器、modal 等 -->
+    </main>
+
+    <!-- 其餘 Modal 和按鈕保持不變 -->
+    <button v-if="currentTab !== 'info'" @click="handleAddClick" class="fixed bottom-6 right-6 w-14 h-14 bg-accent-yellow rounded-full fab-shadow text-deep-sea-blue text-2xl flex items-center justify-center hover:scale-110 transition-transform z-40">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <!-- Modal 區塊（購物、花費、行程）保持不變 -->
+    <!-- 請直接從上一個完整版本複製貼上 -->
+</div>
+
+<script>
+    const { createApp, ref, computed, onMounted, onUnmounted } = Vue
+    createApp({
+        setup() {
+            // === 新增：輪播圖片與邏輯 ===
+            const slides = ref([
+                'https://cdn.pixabay.com/photo/2015/12/01/20/28/mountain-1072829_1280.jpg',     // 富士山
+                'https://cdn.pixabay.com/photo/2017/04/09/18/54/tokyo-2216863_1280.jpg',       // 東京鐵塔夜景
+                'https://cdn.pixabay.com/photo/2016/03/27/19/43/ski-1283698_1280.jpg',         // Gala Yuzawa 滑雪場
+                'https://cdn.pixabay.com/photo/2017/01/08/13/58/shirakawa-go-1966439_1280.jpg', // 白川鄉
+                'https://cdn.pixabay.com/photo/2018/01/28/15/23/tokyo-3113263_1280.jpg'        // 迪士尼城堡
+            ])
+            const currentSlide = ref(0)
+            let slideInterval = null
+
+            const nextSlide = () => {
+                currentSlide.value = (currentSlide.value + 1) % slides.value.length
+            }
+
+            onMounted(() => {
+                slideInterval = setInterval(nextSlide, 5000) // 每5秒切換
+            })
+
+            onUnmounted(() => {
+                if (slideInterval) clearInterval(slideInterval)
+            })
+
+            // === 原有邏輯保持不變 ===
+            const EXCHANGE_RATE = 0.0497
+            
+            const CATEGORY_MAP = {
+                sightseeing: { color: 'bg-green-500', icon: 'fa-solid fa-camera' },
+                food: { color: 'bg-red-500', icon: 'fa-solid fa-utensils' },
+                shopping: { color: 'bg-indigo-500', icon: 'fa-solid fa-bag-shopping' },
+                accommodation: { color: 'bg-purple-500', icon: 'fa-solid fa-bed' },
+                flight: { color: 'bg-blue-500', icon: 'fa-solid fa-plane-departure' },
+                transport: { color: 'bg-orange-500', icon: 'fa-solid fa-train-subway' },
+                ticket: { color: 'bg-cyan-500', icon: 'fa-solid fa-ticket' },
+                other: { color: 'bg-slate-500', icon: 'fa-solid fa-circle-info' },
+                stay: { color: 'bg-purple-500', icon: 'fa-solid fa-hotel' },
+            }
+            const CATEGORY_LABEL_MAP = {
+                sightseeing: '景點', food: '飲食', shopping: '購物', accommodation: '住宿', 
+                flight: '航班', transport: '交通', ticket: '門票', other: '其他', stay: '住宿'
+            }
+
+            const currentTab = ref('itinerary')
+            const selectedDateIndex = ref(0)
+
+            // ... （其餘所有 dates, hotels, itineraryData, weatherData 等資料與上一個版本完全相同）
+
+            // ... （所有 computed、methods、modal 邏輯與上一個版本完全相同）
+
+            return {
+                // 新增
+                slides,
+                currentSlide,
+                
+                // 原有返回項目
+                currentTab, dates, selectedDateIndex, currentItinerary, hotels, weatherData,
+                shoppingList, expenses, totalExpensesJPY, totalExpensesHKD,
+                showShoppingModal, showExpenseModal, showItineraryModal, isEditMode,
+                newShoppingItem, newExpense, newItinerary,
+                currencyInput, currencyResult, calculateCurrency,
+                getCategoryColor, getCategoryIcon, getCategoryLabel,
+                getWeatherIcon, getWeatherDescription, getTransportIcon,
+                openMap, openMapDirections, formatNumber,
+                handleAddClick, handleImageUpload, addShoppingItem, removeShoppingItem,
+                addExpense, removeExpense, editItem, saveItineraryItem, removeItineraryItem,
+                moveItineraryUp, moveItineraryDown
+            }
+        }
+    }).mount('#app')
+</script>
+</body>
+</html>
